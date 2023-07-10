@@ -42,7 +42,7 @@ public class EmployeeService {
         if (removeResult) {
             return employeeForRemove;
         } else {
-            throw new EmployeeNotFoundException("Сотрудник не удалён - не был найден в базе");
+            throw new EmployeeNotFoundException(" Сотрудник не удалён - не был найден в базе");
         }
     }
 
