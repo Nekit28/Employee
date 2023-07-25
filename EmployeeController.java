@@ -1,6 +1,7 @@
 package pro.sky.employeespringdemo;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class EmployeeController  {
     @ExceptionHandler({RuntimeException.class})
-    public String handleException(Exception e) {
-        return e.getMessage();
+    public String handleException(HttpStatusCodeException e) {
+        return "Code:" + e.getStatusCode() + ". Error: " + e.getMessage();
     }
     private final EmployeeService employeeService;
 
