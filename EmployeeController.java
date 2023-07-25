@@ -1,6 +1,7 @@
 package pro.sky.employeespringdemo;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class EmployeeController  {
     @ExceptionHandler({RuntimeException.class})
-    public String handleException(Exception e) {
-        return e.getMessage();
+    public String handleException(HttpStatusCodeException e) {
+        return "Code:" + e.getStatusCode() + ". Error: " + e.getMessage();
     }
     private final EmployeeService employeeService;
 
@@ -20,16 +21,16 @@ public class EmployeeController  {
     }
 
     @GetMapping("/add")
-    public Employee add(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.add(firstName, lastName);
+    public Employee add(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary, @RequestParam int departmentId) {
+        return employeeService.add(firstName, lastName, salary, departmentId);
     }
     @GetMapping("/find")
-    public Employee find(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.find(firstName, lastName);
+    public Employee find(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary, @RequestParam int departmentId) {
+        return employeeService.find(firstName, lastName, salary, departmentId);
     }
     @GetMapping("/remove")
-    public Employee remove(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.remove(firstName, lastName);
+    public Employee remove(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary, @RequestParam int departmentId) {
+        return employeeService.remove(firstName, lastName, salary, departmentId);
     }
 
     @GetMapping
