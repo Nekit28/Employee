@@ -8,6 +8,8 @@ import pro.sky.employeespringdemo.exception.EmployeeStorageIsFullException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 @Service
 public class EmployeeService {
     private final List<Employee> employees = new ArrayList<>();
@@ -23,7 +25,12 @@ public class EmployeeService {
         employees.add(new Employee("андрей","петров", 836.70,3));
     }
     private final static int MAX_SIZE = 2;
-    public Employee add(String firstName, String lastName, double salary,int departmentId) {
+
+    public Employee add(String firstName, String lastName, double salary, int departmentId) {
+
+        if (validateInput(firstName, lastName)) {
+            throw new  IllegalArgumentException();
+        }
 
         if (employees.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
@@ -38,7 +45,13 @@ public class EmployeeService {
         employees.add(newEmployee);
         return newEmployee;
     }
-    public Employee find(String firstName, String lastName, double salary,int departmentI) {
+
+    public Employee find(String firstName, String lastName, double salary, int departmentI) {
+
+        if (validateInput(firstName, lastName)) {
+            throw new  IllegalArgumentException();
+        }
+
         Employee employeeForFound = new Employee(firstName, lastName, salary, departmentI);
         for (Employee e : employees) {
             if (e.equals(employeeForFound)) {
@@ -47,7 +60,13 @@ public class EmployeeService {
         }
         throw new EmployeeNotFoundException("Такого сотрудника нет");
     }
-    public Employee remove(String firstName, String lastName, double salary,int departmentI) {
+
+    public Employee remove(String firstName, String lastName, double salary, int departmentI) {
+
+        if (validateInput(firstName, lastName)) {
+            throw new  IllegalArgumentException();
+        }
+
         Employee employeeForRemove = new Employee(firstName, lastName, salary, departmentI);
         boolean removeResult = employees.remove(employeeForRemove);
         if (removeResult) {
@@ -59,5 +78,9 @@ public class EmployeeService {
 
     public List<Employee> getAll() {
         return null;
+    }
+
+    private boolean validateInput(String firstName, String lastName) {
+        return isAlpha(firstName) && isAlpha(lastName);
     }
 }
